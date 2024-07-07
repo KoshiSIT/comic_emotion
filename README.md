@@ -6,5 +6,5 @@
 このリポジトリはそのための
 感情データの格納, 計算のリクエスト,　画像データ, ユーザ認証のためのRestful API
 
-#構成
+# 構成
 MongoDB+nodejs(Express)+typescript
