@@ -1,15 +1,25 @@
 import Express from "express";
 import mongoose from "mongoose";
 import foodRouter from "./routes/foodRoutes";
+import authRouter from "./routes/authRoutes";
+import measurementRouter from "./routes/measurementRoutes";
 import dotenv from "dotenv";
+// import bcrypt from "bcrypt";
+
+// password hashing
+// const saltRounds = 10;
 
 dotenv.config();
 
 const app = Express();
+
 app.use(foodRouter);
+app.use(authRouter);
+app.use(measurementRouter);
 const port = 3000;
 
 // Connect to MongoDB
+console.log(process.env.MONGODB_URI);
 mongoose
   .connect(process.env.MONGODB_URI as string)
   .then(() => {

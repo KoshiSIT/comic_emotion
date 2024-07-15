@@ -9,7 +9,7 @@
     "moduleResolution": "node10",
     "outDir": "./dist",
     "rootDir": "./src",
-
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     "forceConsistentCasingInFileNames": true,
 
     /* Type Checking */
@@ -17,6 +17,6 @@
     "esModuleInterop": true /* Emit __importStar and __importDefault helpers for runtime Babel ecosystem compatibility and enable --allowSyntheticDefaultImports for typesystem compatibility. */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/types/express", "types/express"],
   "exclude": ["node_modules", "dist"]
 }

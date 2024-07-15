@@ -1,12 +1,18 @@
 import express from "express";
 import foodModel from "../models/food";
+import { protect } from "../middleware/authMiddleware";
+import { AuthRequest } from "../middleware/authMiddleware";
 
 const app = express();
 app.use(express.json());
-app.get("/foods", async (req, res) => {
+app.get("/foods", protect, async (req: AuthRequest, res) => {
   const foods = await foodModel.find({});
+  const resObj: object = {
+    user: req.user?.name,
+    data: foods,
+  };
   try {
-    res.send(foods);
+    res.send(resObj);
   } catch (error) {
     res.status(500).send(error);
   }
