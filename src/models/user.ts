@@ -1,12 +1,14 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { permission } from "process";
 dotenv.config();
 
 export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  permissions: string[];
   getSignedToken(): string;
 }
 
@@ -24,6 +26,11 @@ const userSchema: Schema = new mongoose.Schema({
       /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
       "Please use a valid email address",
     ],
+  },
+  permissions: {
+    type: [String],
+    required: true,
+    default: ["user"],
   },
   password: {
     type: String,

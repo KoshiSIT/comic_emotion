@@ -1,15 +1,16 @@
-import mongose, { Model, Schema } from "mongoose";
+import mongose, { Model, Schema, Document } from "mongoose";
 
-export interface IMeasurement {
+export interface IMeasurement extends Document {
   userName: string;
   measurementId: string;
-  mangaTitle: string;
+  bookId: string;
   emotionType: string;
+  generateMeasurementId(): void;
 }
 
 const measurementSchema = new Schema({
   userName: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: "User",
     required: true,
   },
@@ -18,13 +19,9 @@ const measurementSchema = new Schema({
     required: true,
     unique: true,
   },
-  mangaTitle: {
+  bookId: {
     type: String,
-    ref: "Manga",
-    required: true,
-  },
-  emotionType: {
-    type: String,
+    ref: "MangaEpisode",
     required: true,
   },
 });
@@ -34,6 +31,26 @@ measurementSchema.methods.generateMeasurementId = function () {
     this.measurementId = `${this.userName}-${new Date().toISOString()}`;
   }
 };
+measurementSchema.pre<IMeasurement>("validate", function (next) {
+  const measurementIdRegex = new RegExp(
+    `^${this.userName}-\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$`
+  );
+
+  if (!measurementIdRegex.test(this.measurementId)) {
+    return next(
+      new Error(
+        "measurementId must be in the format userName-YYYY-MM-DDTHH:MM:SS.sssZ"
+      )
+    );
+  }
+
+  if (this.isNew) {
+    this.generateMeasurementId();
+  } else if (this.isModified("measurementId")) {
+    return next(new Error("measurementId cannot be manually modified"));
+  }
+  next();
+});
 const Measurement: Model<IMeasurement> = mongose.model<IMeasurement>(
   "Measurement",
   measurementSchema

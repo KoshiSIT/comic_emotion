@@ -1,7 +1,6 @@
-import mongoose, { Model, Schema } from "mongoose";
+import mongoose, { Model, Schema, Document } from "mongoose";
 
-export interface IEmotionData {
-  measurementId: string;
+export interface IEmotionData extends Document {
   timestamp: Date;
   theta: number;
   delta: number;
@@ -39,7 +38,7 @@ const emotionDataSchema = new Schema({
     ref: "Measurement",
     required: true,
   },
-  timestamp: { type: Date, required: true, unique: true },
+  timestamp: { type: Date, required: true },
   theta: { type: Number, required: true },
   delta: { type: Number, required: true },
   attention: { type: Number, required: true },

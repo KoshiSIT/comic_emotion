@@ -1,8 +1,11 @@
 import Express from "express";
+import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import foodRouter from "./routes/foodRoutes";
 import authRouter from "./routes/authRoutes";
 import measurementRouter from "./routes/measurementRoutes";
+import mangaRouter from "./routes/mangaRoutes";
+import userMangaRouter from "./routes/userMangaRoutes";
 import dotenv from "dotenv";
 // import bcrypt from "bcrypt";
 
@@ -13,9 +16,15 @@ dotenv.config();
 
 const app = Express();
 
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+
+app.use(userMangaRouter);
 app.use(foodRouter);
 app.use(authRouter);
 app.use(measurementRouter);
+
+app.use(mangaRouter);
 const port = 3000;
 
 // Connect to MongoDB

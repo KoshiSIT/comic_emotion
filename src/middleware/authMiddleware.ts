@@ -45,3 +45,20 @@ export const protect = async (
       .json({ message: "Not authorized to access this route" });
   }
 };
+
+export const authorize = (...permissions: string[]) => {
+  return (req: AuthRequest, res: Response, next: NextFunction) => {
+    if (
+      !req.user ||
+      !req.user.permissions ||
+      !permissions.some((permission) =>
+        req.user?.permissions.includes(permission)
+      )
+    ) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to access this route" });
+    }
+    next();
+  };
+};

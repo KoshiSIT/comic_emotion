@@ -1,14 +1,10 @@
-import mongoose, { Model, Schema } from "mongoose";
+import mongoose, { Model, Schema, Document } from "mongoose";
 
-export interface IManga {
+export interface IManga extends Document {
   title: string;
   author: string;
   publisher: string;
   genre: string[];
-  volume: number;
-  publicationDate: Date;
-  summary: string;
-  pages: number;
 }
 
 const mangaSchema = new Schema({
@@ -27,22 +23,6 @@ const mangaSchema = new Schema({
   },
   genre: {
     type: [String],
-    required: true,
-  },
-  volume: {
-    type: Number,
-    required: true,
-  },
-  publicationDate: {
-    type: Date,
-    required: true,
-  },
-  summary: {
-    type: String,
-    required: false,
-  },
-  pages: {
-    type: Number,
     required: true,
   },
 });
