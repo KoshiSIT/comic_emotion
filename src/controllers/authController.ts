@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import User from "../models/user";
 import ErrorResponse from "../utils/errorResponse";
 
@@ -52,7 +51,8 @@ export const login = async (
     }
 
     const token = user.getSignedToken();
-    res.status(200).json({ success: true, token });
+    const username: string = user.name;
+    res.status(200).json({ success: true, token, username });
   } catch (error: any) {
     next(new ErrorResponse(error.message, 500));
   }

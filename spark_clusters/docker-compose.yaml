@@ -1,0 +1,96 @@
+version: "3.8"
+services:
+  spark-master:
+    build:
+      context: .
+    container_name: spark-master
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    environment:
+      - SPARK_MODE=master
+      - SPARK_MASTER_HOST=spark-master
+    entrypoint:
+      ["/opt/spark/bin/spark-class", "org.apache.spark.deploy.master.Master"]
+    platform: linux/amd64
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+    networks:
+      - spark-network
+
+  spark-worker-1:
+    build:
+      context: .
+    container_name: spark-worker-1
+    ports:
+      - "8081:8081"
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER=spark://spark-master:7077
+    entrypoint:
+      [
+        "/opt/spark/bin/spark-class",
+        "org.apache.spark.deploy.worker.Worker",
+        "spark://spark-master:7077",
+      ]
+    platform: linux/amd64
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+    networks:
+      - spark-network
+
+  spark-worker-2:
+    build:
+      context: .
+    container_name: spark-worker-2
+    ports:
+      - "8082:8081"
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER=spark://spark-master:7077
+    entrypoint:
+      [
+        "/opt/spark/bin/spark-class",
+        "org.apache.spark.deploy.worker.Worker",
+        "spark://spark-master:7077",
+      ]
+    platform: linux/amd64
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+    networks:
+      - spark-network
+
+  spark-submit:
+    build:
+      context: .
+    container_name: spark-submit
+    depends_on:
+      - spark-master
+      - spark-worker-1
+      - spark-worker-2
+    volumes:
+      - ./app:/app
+    entrypoint: ["tail", "-f", "/dev/null"]
+    environment:
+      - PYSPARK_SUBMIT_ARGS=--packages org.mongodb.spark:mongo-spark-connector_2.12:10.1.1 pyspark-shell
+    platform: linux/amd64
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+    networks:
+      - spark-network
+
+networks:
+  spark-network:
+    driver: bridge

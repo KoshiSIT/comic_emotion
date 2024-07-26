@@ -1,0 +1,25 @@
+FROM openjdk:11-jre-slim
+
+# Install dependencies
+RUN apt-get update && apt-get install -y python3 python3-pip wget
+
+# Download and install Spark
+RUN wget https://archive.apache.org/dist/spark/spark-3.1.2/spark-3.1.2-bin-hadoop3.2.tgz && \
+    tar -xvf spark-3.1.2-bin-hadoop3.2.tgz -C /opt/ && \
+    rm spark-3.1.2-bin-hadoop3.2.tgz && \
+    mv /opt/spark-3.1.2-bin-hadoop3.2 /opt/spark
+
+# Set environment variables
+ENV SPARK_HOME=/opt/spark
+ENV PATH=$SPARK_HOME/bin:$PATH
+
+# Install Python packages
+RUN pip3 install pyspark==3.1.2 py4j==0.10.9 pymongo[srv]
+
+# Download MongoDB Spark Connector and dependencies
+RUN wget https://repo1.maven.org/maven2/org/mongodb/spark/mongo-spark-connector_2.12/10.1.1/mongo-spark-connector_2.12-10.1.1.jar -P /opt/spark/jars
+
+WORKDIR /opt/spark/work-dir
+COPY app /app
+
+CMD ["tail", "-f", "/dev/null"]

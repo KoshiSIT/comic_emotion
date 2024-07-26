@@ -3,8 +3,9 @@ import argparse
 import json
 
 
-BASE_URL = 'http://localhost:3000'
-jwt_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OWNhNzEzZjVlNmI0ZDQ1ODhhNGE3MiIsImlhdCI6MTcyMTU0ODgyMSwiZXhwIjoxNzIyMTUzNjIxfQ.VDpU-CHjTNbt3WBjOR8_FqyHgSCyaoaAjk4FSpyLiAI'
+# BASE_URL = 'http://localhost:3000'
+BASE_URL = 'https://comic-emotion-bcf21a2c3dda.herokuapp.com/'
+jwt_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OWQyMzU2ZTU0Njg4MGZjMmE0NTJjZiIsImlhdCI6MTcyMTczNDUzMywiZXhwIjoxNzIyMzM5MzMzfQ.NpdTtHN0mMOjXbl16KfNahSGyJwtCHkN5uNyd1FM6WI'
 
 # test ok
 
@@ -12,8 +13,8 @@ jwt_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OWNhNzEzZjVlNmI0ZD
 def test_register():
     url = f'{BASE_URL}/register'
     data = {
-        "name": "testuser5",
-        "email": "testuser5@example.com",
+        "name": "testuser101",
+        "email": "testuser101@example.com",
         "password": "password"
     }
     response = requests.post(url, json=data)
@@ -31,7 +32,7 @@ def test_register():
 def test_login():
     url = f'{BASE_URL}/login'
     data = {
-        "email": "testuser2@example.com",
+        "email": "testuser6@example.com",
         "password": "password"
     }
     response = requests.get(url, json=data)

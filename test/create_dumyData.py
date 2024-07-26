@@ -1,7 +1,8 @@
 import requests
 import json
 import random
-BASE_URL = 'http://localhost:3000'
+# BASE_URL = 'http://localhost:3000'
+BASE_URL = 'https://comic-emotion-bcf21a2c3dda.herokuapp.com/'
 Save_Dir = '../static/json/'
 
 
