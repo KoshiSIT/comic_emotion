@@ -47,6 +47,8 @@ def Arousal(data_file: list, base_dir: str):
         stimu_max = data['stimu_num'].max()
         arousal = data['low_beta'] / data['low_alpha']
         arousal = Sigma_3(arousal)
+        # check ok
+        # print(arousal)
         page_list = data['stimu_num']
 
         beta_alpha = pd.merge(pd.DataFrame(arousal, columns=['b_a']), pd.DataFrame(
@@ -63,13 +65,14 @@ def Arousal(data_file: list, base_dir: str):
             else:
                 each_result.append(np.sign(sub_rest))
         result.append(each_result)
-
+    # print(result)
     return result
 
 
 # 横軸
 def Valence(data_file: list, base_dir: str):
     rmssd = rm.Hcmp(data_file, base_dir)
+    # print(rmssd)
     result = []
     for data in rmssd:
         each_result = []
@@ -90,7 +93,8 @@ if __name__ == '__main__':
 
     b_a = Arousal(data_file, base_dir)
     rmssd = Valence(data_file, base_dir)
-
+    # print(b_a)
+    # print(rmssd)
     for i, data in enumerate(b_a):
         each_result = []
         for j in range(len(data)):

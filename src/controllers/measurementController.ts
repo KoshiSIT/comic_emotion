@@ -64,6 +64,7 @@ export const postMeasurement = async (
     const measurement = new Measurement({
       userName: userName,
       bookId: req.params.bookId,
+      isCal: false,
     });
 
     console.log(measurement.userName);

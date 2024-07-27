@@ -5,6 +5,7 @@ export interface IMeasurement extends Document {
   measurementId: string;
   bookId: string;
   emotionType: string;
+  isCal: boolean;
   generateMeasurementId(): void;
 }
 
@@ -22,6 +23,10 @@ const measurementSchema = new Schema({
   bookId: {
     type: String,
     ref: "MangaEpisode",
+    required: true,
+  },
+  isCal: {
+    type: Boolean,
     required: true,
   },
 });

@@ -23,7 +23,7 @@ def stimu_rMSSD(data_file: list, base_dir: str):
 
         stimu_list = []
         rMSSD = []
-
+        print(df[df['event'] == 100])
         for k, row in df.iterrows():
             rMSSD_time = []
             if k < 60:
@@ -42,9 +42,10 @@ def stimu_rMSSD(data_file: list, base_dir: str):
             rMSSD.append(rMSSD_time)
 
         stimu_list.append(k)
+        # print(stimu_list)
         page_list.append(stimu_list)
         rMSSD_list.append(rMSSD)
-
+    # print(page_list)
     return page_list, rMSSD_list
 
 
@@ -93,8 +94,9 @@ def Hcmp(data_file: list, base_dir: str):
     result = []
 
     page, rMSSD = stimu_rMSSD(data_file, base_dir)
+    # print(rMSSD)
     rMSSD = rMSSD_time(data_file, Cal_time, base_dir)
-    print(data_file)
+    # print(rMSSD)
     for i, file in enumerate(data_file):
         rest = []
         df = pd.read_csv(base_dir+file, header=0)
@@ -103,6 +105,7 @@ def Hcmp(data_file: list, base_dir: str):
 
         rM_list = []
         B_end = rMSSD[i][-1][1]
+        # print(page)
         for k in range(len(page[i])):
             if k == 24:
                 break
@@ -152,4 +155,5 @@ def Hcmp(data_file: list, base_dir: str):
         rM_list.insert(0, rest_avg)
 
         result.append(rM_list)
+    # print(result)
     return result
