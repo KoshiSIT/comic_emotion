@@ -19,6 +19,7 @@ Thumbs.db
 /dist
 /out
 /build
-
+/spark_clusters
+.env
 # TypeScript
 *.tsbuildinfo

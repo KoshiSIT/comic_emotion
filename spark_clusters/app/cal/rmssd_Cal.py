@@ -20,6 +20,7 @@ def stimu_rMSSD(df: pd.DataFrame):
     stimu_list = []
     rMSSD = []
     # df['event'] = df['event'].astype(int)
+
     for k, row in df.iterrows():
         rMSSD_time = []
         if k < 60:
@@ -36,7 +37,7 @@ def stimu_rMSSD(df: pd.DataFrame):
         rMSSD.append(rMSSD_time)
 
     stimu_list.append(k)
-    print(stimu_list)
+    # print(stimu_list)
     page_list.append(stimu_list)
     rMSSD_list.append(rMSSD)
     # print(page_list)

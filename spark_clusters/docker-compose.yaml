@@ -17,7 +17,7 @@ services:
       resources:
         limits:
           cpus: "1.0"
-          memory: 1G
+          memory: 512M
     networks:
       - spark-network
 
@@ -41,7 +41,7 @@ services:
       resources:
         limits:
           cpus: "1.0"
-          memory: 1G
+          memory: 512M
     networks:
       - spark-network
 
@@ -65,7 +65,7 @@ services:
       resources:
         limits:
           cpus: "1.0"
-          memory: 1G
+          memory: 512M
     networks:
       - spark-network
 
@@ -80,14 +80,12 @@ services:
     volumes:
       - ./app:/app
     entrypoint: ["tail", "-f", "/dev/null"]
-    environment:
-      - PYSPARK_SUBMIT_ARGS=--packages org.mongodb.spark:mongo-spark-connector_2.12:10.1.1 pyspark-shell
     platform: linux/amd64
     deploy:
       resources:
         limits:
-          cpus: "1.0"
-          memory: 1G
+          cpus: "2"
+          memory: 2G
     networks:
       - spark-network
 
